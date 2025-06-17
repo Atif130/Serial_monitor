@@ -1,63 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StemRobo Port Check</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        select, button, input {
-            padding: 10px;
-            margin: 10px 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        #terminal {
-            height: 300px;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            background: #000;
-            color: #0f0;
-            font-family: monospace;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StemRobo Serial Monitor</title>
+  <link rel="icon" href="favicon.ico" type="image/ico" />
+  <style>
+    :root {
+      --green: #00ff9f;
+      --dark: #1a1a1a;
+      --glass-bg: rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      width: 95%;
+      max-width: 960px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 0 25px rgba(0, 255, 160, 0.15);
+      border: 1px solid rgba(0, 255, 160, 0.2);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: var(--green);
+      text-shadow: 0 0 6px rgba(0, 255, 160, 0.4);
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    select, input, button {
+      padding: 10px 16px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-family: inherit;
+    }
+
+    select, input {
+      background: #222;
+      color: var(--green);
+      border: 1px solid #444;
+    }
+
+    button {
+      background: transparent;
+      color: var(--green);
+      border: 1px solid var(--green);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover:not(:disabled) {
+      background: var(--green);
+      color: #000;
+      box-shadow: 0 0 10px var(--green);
+    }
+
+    button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    #terminal {
+      background: #000;
+      color: #00ff00;
+      font-family: monospace;
+      border: 1px solid #0f0;
+      border-radius: 10px;
+      padding: 15px;
+      height: 320px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      box-shadow: inset 0 0 10px #0f0;
+    }
+
+    .input-group {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .input-group input {
+      width: 60%;
+      min-width: 250px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>StemRobo Port Check</h1>
-        <div>
-            <label for="baudRate">Baud Rate:</label>
-            <select id="baudRate">
-                <option value="9600">9600</option>
-                <option value="115200">115200</option>
-                <option value="4800">4800</option>
-                <option value="19200">19200</option>
-            </select>
-            <button id="connectBtn">Connect</button>
-            <button id="disconnectBtn" disabled>Disconnect</button>
-        </div>
-        <div id="terminal"></div>
-        <div>
-            <input type="text" id="inputData" placeholder="Type data to send..." />
-            <button id="sendBtn">Send</button>
-        </div>
+  <div class="wrapper">
+    <header>
+      <h1>🖥️ StemRobo Serial Monitor</h1>
+    </header>
+
+    <section class="controls">
+      <label for="baudRate">Baud Rate:</label>
+      <select id="baudRate">
+        <option value="9600">9600</option>
+        <option value="115200">115200</option>
+        <option value="4800">4800</option>
+        <option value="19200">19200</option>
+      </select>
+      <button id="connectBtn">Connect</button>
+      <button id="disconnectBtn" disabled>Disconnect</button>
+    </section>
+
+    <section id="terminal"></section>
+
+    <div class="input-group">
+      <input type="text" id="inputData" placeholder="Type data to send..." />
+      <button id="sendBtn">Send</button>
     </div>
-    <script src="script.js"></script>
+
+    <footer>© 2025 StemRobo Technologies</footer>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
